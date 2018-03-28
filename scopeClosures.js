@@ -62,3 +62,51 @@ function bar3(fn) {
  * do seu escopo léxico, ela irá manter uma referência de escopo de onde ela for declarada
  * originalmente, e onde for que a executarmos, essa closure irá ocorrer.
  */
+
+function makeAdder(x) {
+  return function(y) {
+    return x + y;
+  };
+}
+
+var add5 = makeAdder(5); // Closure
+var add10 = makeAdder(10); // Closure
+
+console.log("add5(2)", add5(2)); // 7
+console.log("add10(2)", add10(2)); // 12
+
+/**
+ * Na essência o makeAdder trata-se de uma função fábrica - irá construir
+ * outras funções que podem adicionar um determinado valor específico ao seu
+ * argumento.
+ *
+ * Ambas as funções add5 e add 10 são closures. Compartilham o mesmo corpo de
+ * definição de função mas armazenam diferentes ambientes. No ambiente de add5,
+ *  por exemplo, x equivale a 5, enquanto na add10 o valor de x é 10.
+ */
+
+function makeSizer(size) {
+  return function() {
+    document.body.style.fontSize = size + "px";
+  };
+}
+
+var size12 = makeSizer(12); // Closure
+var size14 = makeSizer(14); // Closure
+var size16 = makeSizer(16); // Closure
+
+document.getElementById("size-12").onclick = size12;
+document.getElementById("size-14").onclick = size14;
+document.getElementById("size-16").onclick = size16;
+
+/**
+ * Linguagens como java oferecem a habilidade de declarar métodos privados
+ * o que significa que eles só poderão ser chamados por outros métodos na
+ * mesma classe.
+ *
+ * O JavaScript não oferece uma maneira nativa de fazer isso, mas é possível
+ * emular métodos privados usando closures. Métodos privados não são somente úteis
+ * para restringir acesso ao código: eles também oferecem uma maneira eficaz de
+ * gerenciar seu namespace global, evitando que métodos não essencias baguncem a
+ * interface pública do seu código.
+ */
